@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0E1726">
+<title>Sistema — Lanchonete</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<div id="sprite" hidden></div>
+
+<div id="login"><div class="loginbox">
+  <div class="mark"><svg><use href="#i-logo"/></svg></div><h1>Sistema Lanchonete</h1><p class="sub">Acesse com o seu usuário.</p>
+  <div class="campo"><label>Usuário</label><input id="lgUser" autocomplete="username" placeholder="SABORIDO ou LANCHONETE"></div>
+  <div class="campo"><label>Senha</label><input id="lgSenha" type="password" autocomplete="current-password"></div>
+  <button class="btn btn-go" id="btnEntrar" style="width:100%;padding:12px">Entrar</button>
+  <div class="erro" id="lgErro"></div>
+</div></div>
+
+<div id="app">
+  <aside class="side" id="side">
+    <div class="logo"><div class="sq"><svg><use href="#i-logo"/></svg></div><div><b id="logoNome">Lanchonete</b><small id="logoPapel">—</small></div></div>
+    <div class="menu" id="menu"></div>
+    <div class="euser"><b id="euNome">—</b><span id="euPapel">—</span>
+      <div class="acts"><button id="btnSenha">Trocar senha</button><button id="btnSair">Sair</button></div></div>
+  </aside>
+  <div class="wrap">
+    <div class="topbar">
+      <button class="burger" id="burger"><svg class="ic"><use href="#i-burger"/></svg></button>
+      <h1 id="tituloPagina">Vendas</h1>
+      <span class="chip" id="tagCaixa">—</span>
+      <span class="chip" id="tagSync"><i></i><span id="syncTxt">Sincronizado</span></span>
+      <span class="sub num" id="relogio"></span>
+    </div>
+    <main id="v-vendas" class="on">
+      <section id="catalogo">
+        <input id="busca" placeholder="Buscar produto — Enter adiciona o primeiro (F2)" autocomplete="off">
+        <div class="cats" id="cats"></div>
+        <div class="grid" id="grid"></div>
+      </section>
+      <aside id="comanda">
+        <div class="cm-top">
+          <div class="linha">
+            <input id="cliente" placeholder="Nome do cliente (F3)" autocomplete="off">
+            <button class="btn btn-out" id="btnFixo" style="flex:0 0 auto;white-space:nowrap">Fixos</button>
+          </div>
+          <input id="fone" placeholder="WhatsApp — opcional" inputmode="numeric" autocomplete="off">
+          <div class="tipo" id="tipo">
+            <button data-t="Balcao" class="on">Balcão</button>
+            <button data-t="Retirada">Retirada</button>
+            <button data-t="Entrega">Entrega</button>
+          </div>
+        </div>
+        <div class="itens" id="itens"></div>
+        <div class="cm-bot">
+          <div class="total"><span class="lb">Total do pedido</span><span class="vl num" id="totalTxt">R$ 0,00</span></div>
+          <div class="acoes">
+            <button class="btn btn-del" id="btnLimpar">Cancelar</button>
+            <button class="btn btn-go" id="btnPagar" disabled>Cobrar (F8)</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+    <main id="v-fila"><div class="pad" id="fila"></div></main>
+    <main id="v-caixa"><div class="pad" id="caixa"></div></main>
+    <main id="v-pix"><div class="pad" id="pix"></div></main>
+    <main id="v-troco"><div class="pad" id="troco"></div></main>
+    <main id="v-clientes"><div class="pad" id="clientes"></div></main>
+    <main id="v-produtos"><div class="pad" id="produtos"></div></main>
+    <main id="v-financeiro"><div class="pad" id="financeiro"></div></main>
+    <main id="v-despesas"><div class="pad" id="despesas"></div></main>
+    <main id="v-insumos"><div class="pad" id="insumos"></div></main>
+    <main id="v-fornecedores"><div class="pad" id="fornecedores"></div></main>
+    <main id="v-precificacao"><div class="pad" id="precificacao"></div></main>
+    <main id="v-maquininhas"><div class="pad" id="maquininhas"></div></main>
+    <main id="v-equipe"><div class="pad" id="equipe"></div></main>
+    <main id="v-investimentos"><div class="pad" id="investimentos"></div></main>
+    <main id="v-fidelidade"><div class="pad" id="fidelidade"></div></main>
+    <main id="v-promocoes"><div class="pad" id="promocoes"></div></main>
+    <main id="v-whatsapp"><div class="pad" id="whatsapp"></div></main>
+    <main id="v-cardapio"><div class="pad" id="cardapio"></div></main>
+    <main id="v-fiscal"><div class="pad" id="fiscal"></div></main>
+    <main id="v-config"><div class="pad" id="config"></div></main>
+  </div>
+</div>
+<nav id="bottomnav"></nav>
+
+<div id="print-area"></div><div id="modalRoot"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+fetch("assets/icons.svg").then(r=>r.text()).then(s=>{document.getElementById("sprite").innerHTML=s});
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+<script src="js/core/config.js"></script>
+<script src="js/core/util.js"></script>
+<script src="js/core/state.js"></script>
+<script src="js/core/auth.js"></script>
+<script src="js/core/nav.js"></script>
+<script src="js/core/data.js"></script>
+<script src="js/core/sync.js"></script>
+<script src="js/core/print.js"></script>
+<script src="js/views/vendas.js"></script>
+<script src="js/views/fila.js"></script>
+<script src="js/views/caixa.js"></script>
+<script src="js/views/pix.js"></script>
+<script src="js/views/troco.js"></script>
+<script src="js/views/clientes.js"></script>
+<script src="js/views/produtos.js"></script>
+<script src="js/views/financeiro.js"></script>
+<script src="js/views/despesas.js"></script>
+<script src="js/views/insumos.js"></script>
+<script src="js/views/fornecedores.js"></script>
+<script src="js/views/precificacao.js"></script>
+<script src="js/views/maquininhas.js"></script>
+<script src="js/views/equipe.js"></script>
+<script src="js/views/investimentos.js"></script>
+<script src="js/views/fidelidade.js"></script>
+<script src="js/views/cardapio.js"></script>
+<script src="js/views/promocoes.js"></script>
+<script src="js/views/whatsapp.js"></script>
+<script src="js/views/fiscal.js"></script>
+<script src="js/views/config.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
